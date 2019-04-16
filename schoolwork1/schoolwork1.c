@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include<windows.h>
 
 typedef struct users_info {
 	char name[15];
@@ -58,7 +59,7 @@ void users_register() {//注册
 
 void users_login() {//登录
 	users_info a, b;
-	
+
 	FILE* fp;
 	printf("四则运算系统登录界面\n");
 	fp = fopen("users_info.txt", "r");
@@ -81,17 +82,27 @@ void users_login() {//登录
 	}
 	printf("请输入密码\n");
 	scanf("%s", &a.pswd);
-	do {
+	int i = 3;
+	while(1) {
 		if (strcmp(a.pswd, b.pswd) == 0) {
 			fclose(fp);
 			printf("登录成功\n");
 			return;
 		}
 		else {
-			printf("密码不正确，请重新输入\n");
+			printf("密码不正确，请重新输入，您还有%d次机会\n",i);
+			i--;
 			scanf("%s", &a.pswd);
 		}
-	} while (strcmp(a.pswd, b.pswd) == 0);
+		if (i == 0) {
+			printf("您已输错超过3次，即将返回主界面\n");
+			Sleep(1000);
+			system("cls");
+			break;
+		}
+			
+	} 
+
 
 }
 
