@@ -2,16 +2,21 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include<windows.h>
+#include <windows.h>
 
 typedef struct users_info {
-	char name[15];
+	char name[50];
 	char pswd[20];
 } users_info;
 
 int flag_login = 0;
 users_info a, b;
-char login_name[15];
+char login_name[50];
+char login_name_wq[150];
+FILE* fp2;
+FILE* fp3;
+
+int main();
 
 void users_create()
 {
@@ -22,7 +27,6 @@ void users_create()
 		{
 			printf("无法建立文件！\n");
 			exit(0);
-
 		}
 	}
 }
@@ -49,6 +53,7 @@ void users_register() {//注册
 		else {
 			printf("该用户名已被使用，请重试。\n");
 			fclose(fp);
+			system("pause");
 			return;
 		}
 	}
@@ -56,8 +61,14 @@ void users_register() {//注册
 	scanf("%s", &a.pswd);
 	fp = fopen("users_info.txt", "a");
 	fwrite(&a, sizeof(users_info), 1, fp);
+
 	printf("账号注册成功，请登录\n");
+	strcpy(login_name_wq, a.name);
 	fclose(fp);
+	system("pause");
+	strcat(login_name_wq, ".txt");
+	fp3 = fopen(login_name_wq, "w+");
+	fclose(fp3);
 	return;
 }
 
@@ -79,8 +90,9 @@ char users_login() {//登录
 			if (!feof(fp))
 				fread(&b, sizeof(users_info), 1, fp);
 			else {
-				printf("此账号不存在，请重新输入！\n");
+				printf("此账号不存在，请注册或重新登录！\n");
 				fclose(fp);
+				system("pause");
 				return;
 			}
 		}
@@ -213,6 +225,16 @@ double test(int n)
 		}
 		else {
 			printf("又做错了，正确答案是：%d\n", ranswer);
+			char tmp1[256], tmp2[256];
+			memset(tmp1, 0, sizeof(tmp1));
+			memset(tmp2, 0, sizeof(tmp2));
+			sprintf(tmp1, "%d%c", num1,operation);
+			sprintf(tmp2, "%d= %d , 正确答案为： %d\n", num2,uanswer,ranswer);
+			
+			fp3 = fopen(login_name_wq, "a");
+			fwrite(tmp1, 1, strlen(tmp1), fp3);
+			fwrite(tmp2, 1, strlen(tmp2), fp3);
+			fclose(fp3);
 			return 0;
 		}
 
@@ -238,7 +260,7 @@ void doExercise()
 	{
 		score = score + test(op1);		//间接递归调用test(n)
 	}
-	printf("本次练习%d道题，你做对了%.3lf道\n", num,score);
+	printf("本次练习%d道题，你做对了%.1lf道\n", num,score);
 	printf("本次得分 %d 分\n", (int)(((float)score / (float)num)*100));
 }
 
@@ -261,7 +283,16 @@ beginning:
 	switch (option) {
 
 	case 1:users_register(); system("cls"); goto beginning;
-	case 2:users_login(); system("cls"); 
+	case 2:users_login(); system("cls");
+		while (1) {
+			if (flag_login == 0)
+				goto beginning;
+			else
+				break;
+		}
+		
+		
+		
 mainly:
 		printf("=============================================\n");
 		printf("\n\t      四则运算练习系统\n\n");
@@ -277,12 +308,22 @@ mainly:
 		switch (option1) {
 		case 1:
 			system("cls");
+			
 			doExercise();
 			system("pause");
 			system("cls");
 			goto mainly;
 		case 2:
+			//strcat(login_name_wq, ".txt");
+			
+			fp2 = fopen(login_name_wq, "r");
 
+			while (!feof(fp2))
+				putchar(fgetc(fp2));
+			fclose(fp2);
+			system("pause");
+			system("cls");
+			goto mainly;
 		case 3:
 			system("cls");
 			goto beginning;
