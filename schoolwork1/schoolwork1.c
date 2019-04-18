@@ -110,33 +110,10 @@ char users_login() {//登录
 	}
 }
 
-
-void doExercise()
-{
-	int score = 0;		//练习得分，初始化为0
-	int i = 0;			//练习题数的计数器
-	printf("===================================\n");
-	printf("\n欢迎使用小学生四则运算练习软件\n");
-	printf("\t1、加法练习\t2、减法练习\n");
-	printf("\t3、乘法练习\t4、除法练习\n");
-	printf("\t5、综合练习\t0、退出系统\n");
-	printf("请输入你的选择（0--5）：\n");
-	printf("\n===================================\n");
-	int op1,num;
-	scanf("%d", &op1);
-	printf("输入本次训练题数： ");
-	scanf("%d", &num);
-	for (i = 1; i <= num; i++)
-	{
-		score = score + test(op1);		//间接递归调用test(n)
-	}
-	printf("本次练习%d道题，你做对了%d道\n", num,score);
-}
-
 /*
 	功能：进行一道题的测试过程
 */
-int test(int n)
+double test(int n)
 {
 	int ranswer = 0;			//正确答案
 	int uanswer = 0;			//用户输入的答案
@@ -226,10 +203,46 @@ int test(int n)
 	}
 	else
 	{
-		printf("做错了！\n");
-		return 0;
+		printf("做错了，再试一次吧！\n");
+		printf("%d%c%d= ", num1, operation, num2);
+		scanf("%d", &uanswer);
+		if (uanswer == ranswer)
+		{
+			printf("做对了！\n");
+			return 0.5;
+		}
+		else {
+			printf("又做错了，正确答案是：%d\n", ranswer);
+			return 0;
+		}
+
 	}
 }
+
+void doExercise()
+{
+	double score = 0;		//练习得分，初始化为0
+	int i = 0;			//练习题数的计数器
+	printf("===================================\n");
+	printf("\n欢迎使用小学生四则运算练习软件\n");
+	printf("\t1、加法练习\t2、减法练习\n");
+	printf("\t3、乘法练习\t4、除法练习\n");
+	printf("\t5、综合练习\t0、退出系统\n");
+	printf("请输入你的选择（0--5）：\n");
+	printf("\n===================================\n");
+	int op1,num;
+	scanf("%d", &op1);
+	printf("输入本次训练题数： ");
+	scanf("%d", &num);
+	for (i = 1; i <= num; i++)
+	{
+		score = score + test(op1);		//间接递归调用test(n)
+	}
+	printf("本次练习%d道题，你做对了%.3lf道\n", num,score);
+	printf("本次得分 %d 分\n", (int)(((float)score / (float)num)*100));
+}
+
+
 
 
 int main() {
