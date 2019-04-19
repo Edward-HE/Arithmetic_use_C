@@ -38,10 +38,10 @@ void users_register() {//注册
 	int count = 0;
 	users_info a, b;
 	fp = fopen("users_info.txt", "r");
-	printf("注册您的四则运算训练系统账户\n");
-
+	printf("===================================\n");
+	printf("\n注册您的四则运算训练系统账户\n");
 	fread(&b, sizeof(users_info), 1, fp);/*读入一个结构体字符块到b中*/
-	printf("请输入您的用户名：\n");
+	printf("请输入您的用户名：");
 	scanf("%s", &a.name);
 	while (1) {
 		if (strcmp(a.name, b.name) != 0) {/*如果两个用户名不一样*/
@@ -52,18 +52,19 @@ void users_register() {//注册
 				break;
 		}
 		else {
-			printf("该用户名已被使用，请重试。\n");
+			printf("\n该用户名已被使用，请重试。\n");
 			fclose(fp);
 			system("pause");
 			return;
 		}
 	}
-	printf("请输入密码：\n");
+	printf("\n请输入密码：");
 	scanf("%s", &a.pswd);
 	fp = fopen("users_info.txt", "a");
 	fwrite(&a, sizeof(users_info), 1, fp);
 
-	printf("账号注册成功，请登录\n");
+	printf("\n账号注册成功，请登录\n");
+	printf("\n===================================\n");
 	strcpy(login_name_wq, a.name);
 	fclose(fp);
 	system("pause");
@@ -77,11 +78,12 @@ char users_login() {//登录
 	users_info a, b;
 
 	FILE* fp;
-	printf("四则运算系统登录界面\n");
+	printf("===================================\n");
+	printf("\t四则运算系统登录界面\n");
 	fp = fopen("users_info.txt", "r");
 
 	fread(&b, sizeof(users_info), 1, fp);
-	printf("请输入账号\n");
+	printf("\n请输入账号：");
 	scanf("%s", &a.name);
 	strcpy(login_name, a.name);
 	while (1) {
@@ -91,32 +93,35 @@ char users_login() {//登录
 			if (!feof(fp))
 				fread(&b, sizeof(users_info), 1, fp);
 			else {
-				printf("此账号不存在，请注册或重新登录！\n");
+				printf("\n此账号不存在，请注册或重新登录！\n");
 				fclose(fp);
 				system("pause");
 				return;
 			}
 		}
 	}
-	printf("请输入密码\n");
+	printf("\n请输入密码：");
 	scanf("%s", &a.pswd);
 	int i = 3;
 	while (1) {
 		if (strcmp(a.pswd, b.pswd) == 0) {
 			fclose(fp);
-			printf("登录成功！即将返回主界面\n");
+			printf("\n\n登录成功！即将进入训练系统\n");
+			printf("\n===================================\n");
 			flag_login = 1;
 			Sleep(2000);
 			return (login_name);
 		}
 		else {
-			printf("密码不正确，请重新输入，您还有%d次机会\n", i);
+			printf("\n密码不正确，请重新输入，您还有%d次机会\n", i);
+			printf("请输入密码：");
 			i--;
 			scanf("%s", &a.pswd);
 		}
 		if (i == 0) {
 			printf("您已输错超过3次，即将返回主界面\n");
-			Sleep(2000);
+			printf("\n===================================\n");
+			Sleep(1000);
 			system("cls");
 			break;
 		}
@@ -259,7 +264,14 @@ void doExercise()
 		score = score + test(op1);		//间接递归调用test(n)
 	}
 	printf("本次练习%d道题，你做对了%.1lf道\n", num,score);
-	printf("本次得分 %d 分\n", (int)(((float)score / (float)num)*100));
+	double final_score;
+	final_score = (score / (double)num) * 100;
+	printf("本次得分 %.0lf 分 ", final_score);
+	if (final_score > 90) printf(" , Smart!\n");
+	else if((final_score>80)&&(final_score<=90)) printf(" , Good!\n");
+	else if ((final_score > 70) && (final_score <= 80)) printf(" , OK!\n");
+	else if ((final_score > 60) && (final_score <= 70)) printf(" , Pass!\n");
+	else  printf(" , Try again!\n");
 }
 
 
@@ -280,8 +292,8 @@ beginning:
 	scanf("%d", &option);
 	switch (option) {
 
-	case 1:users_register(); system("cls"); goto beginning;
-	case 2:users_login(); system("cls");
+	case 1:system("cls"); users_register(); system("cls"); goto beginning;
+	case 2:system("cls"); users_login(); system("cls");
 		while (1) {
 			if (flag_login == 0)
 				goto beginning;
@@ -337,7 +349,21 @@ mainly:
 			exit(0);
 		}
 	case 3:
-		
+		system("cls");
+		printf("==============================================\n");
+		printf("\n\t      关  于  我  们\n\n");
+		printf("      系统为适用于小学生的四则运算练习系统，\n");
+		printf("  系统由C语言编写，可以进行100以内的四则运算\n");
+		printf("  练习，每次练习可以任意指定题目数量，每题有\n");
+		printf("  两次答题机会，第一次答对得满分，第二次答对\n");
+		printf("  得一半的分，答错不得分。练习后可查看每次练\n");
+		printf("  习的错题。\n");
+		printf("\n\t   Powered by Edward_du\n");
+		printf("\n\t   \t2019.4.19\n");
+		printf("\n==============================================\n");
+		system("pause");
+		system("cls");
+		goto beginning;
 	case 4:exit(0);
 	}
 	return 0;
