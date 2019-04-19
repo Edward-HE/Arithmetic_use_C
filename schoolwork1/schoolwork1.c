@@ -87,6 +87,7 @@ char users_login() {//登录
 	scanf("%s", &a.name);
 	strcpy(login_name, a.name);
 	strcpy(login_name_wq, a.name);
+	strcat(login_name_wq, ".txt");
 	while (1) {
 		if (strcmp(a.name, b.name) == 0)/*如果已经注册了*/
 			break;
