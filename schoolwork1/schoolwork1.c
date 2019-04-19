@@ -261,7 +261,7 @@ void doExercise()
 	{
 		score = score + test(op1);		//间接递归调用test(n)
 	}
-	printf("本次练习%d道题，你做对了%.1lf道\n", num,score);
+	printf("\n本次练习%d道题，你做对了%.1lf道\n", num,score);
 	double final_score;
 	final_score = (score / (double)num) * 100;
 	printf("本次得分 %.0lf 分 ", final_score);
@@ -327,6 +327,7 @@ mainly://练习系统界面
 			fwrite(tmp2, 1, strlen(tmp2), fp3);
 			fclose(fp3);
 			doExercise();
+			printf("\n");
 			system("pause");
 			system("cls");
 			goto mainly;
@@ -337,6 +338,7 @@ mainly://练习系统界面
 			while (!feof(fp3))
 				putchar(fgetc(fp3));
 			fclose(fp3);
+			printf("\n\n");
 			system("pause");
 			system("cls");
 			goto mainly;
