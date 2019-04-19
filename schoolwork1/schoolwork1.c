@@ -86,6 +86,7 @@ char users_login() {//登录
 	printf("\n请输入账号：");
 	scanf("%s", &a.name);
 	strcpy(login_name, a.name);
+	strcpy(login_name_wq, a.name);
 	while (1) {
 		if (strcmp(a.name, b.name) == 0)/*如果已经注册了*/
 			break;
@@ -128,13 +129,11 @@ char users_login() {//登录
 	}
 }
 
-/*
-	功能：进行一道题的测试过程
-*/
-double test(int n)
+
+double test(int n)//出题并检测
 {
 	int ranswer = 0;			//正确答案
-	int uanswer = 0;			//用户输入的答案
+	int uanswer = 0;			//输入的答案
 	int t = 0;				//临时变量
 	char operation;			//运算类别
 	int num1 = 0;				//操作数1
@@ -144,7 +143,7 @@ double test(int n)
 	num1 = rand() % 10;			//取0—9之间的随机数
 	num2 = rand() % 10;
 
-	//进入程序功能，如果选择5就随机产生1-4所代表的每一种运算方式
+	//选择5就随机产生1-4所代表的每一种运算方式
 	if (n == 5)
 	{
 		n = rand() % 4 + 1;
@@ -190,11 +189,11 @@ double test(int n)
 		num1 = num1 * num2;			//防止num1不能被num2整除的语句
 	}
 
-	//输出测试题本身、提示用户输入
+	//输出题目，要求输入
 	printf("%d%c%d= ", num1, operation, num2);
 	scanf("%d", &uanswer);
 
-	//程序计算正确结果
+	//计算正确结果
 	switch (operation)
 	{
 	case '+':
@@ -213,7 +212,7 @@ double test(int n)
 		ranswer = num1 / num2;
 		break;
 	}
-	//评判，做对返回1，做错返回0
+	//评判，返回得分
 	if (uanswer == ranswer)
 	{
 		printf("做对了！\n");
@@ -233,14 +232,12 @@ double test(int n)
 			printf("又做错了，正确答案是：%d\n", ranswer);
 			char tmp1[256];
 			memset(tmp1, 0, sizeof(tmp1));
-			sprintf(tmp1, "   %d%c%d= %d , 正确答案为： %d\n", num1,operation,num2,uanswer,ranswer);
-			
+			sprintf(tmp1, "   %d%c%d= %d , 正确答案为： %d\n", num1,operation,num2,uanswer,ranswer);//错题写入错题集
 			fp3 = fopen(login_name_wq, "a");
 			fwrite(tmp1, 1, strlen(tmp1), fp3);
 			fclose(fp3);
 			return 0;
 		}
-
 	}
 }
 
@@ -279,7 +276,7 @@ void doExercise()
 
 int main() {
 	users_create();
-beginning:
+beginning://主界面
 	printf("=============================================\n");
 	printf("\n\t      四则运算练习系统\n\n");
 	printf("\t1.注	册");
@@ -303,7 +300,7 @@ beginning:
 		
 		
 		
-mainly:
+mainly://练习系统界面
 		printf("=============================================\n");
 		printf("\n\t      四则运算练习系统\n\n");
 		printf("\t       当前用户：%s\n\n", login_name);
@@ -316,7 +313,7 @@ mainly:
 		int option1;
 		scanf("%d", &option1);
 		switch (option1) {
-		case 1:
+		case 1://做题
 			system("cls");
 			fp3 = fopen(login_name_wq, "a");
 			char tmp2[256];
@@ -325,30 +322,30 @@ mainly:
 			struct tm* p;
 			time(&timep);
 			p = gmtime(&timep);
-			sprintf(tmp2, "%d年%d月%d日 %d:%d:%d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, 8 + p->tm_hour, p->tm_min, p->tm_sec);
+			sprintf(tmp2, "%d年%d月%d日 %d:%d:%d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, 8 + p->tm_hour, p->tm_min, p->tm_sec);//记录做题时间
 			fwrite(tmp2, 1, strlen(tmp2), fp3);
 			fclose(fp3);
 			doExercise();
 			system("pause");
 			system("cls");
 			goto mainly;
-		case 2:
+		case 2://查看错题集
 			
-			fp2 = fopen(login_name_wq, "r");
+			fp3 = fopen(login_name_wq, "a+");
 			
-			while (!feof(fp2))
-				putchar(fgetc(fp2));
-			fclose(fp2);
+			while (!feof(fp3))
+				putchar(fgetc(fp3));
+			fclose(fp3);
 			system("pause");
 			system("cls");
 			goto mainly;
-		case 3:
+		case 3://退出登录
 			system("cls");
 			goto beginning;
-		case 4:
+		case 4://退出系统
 			exit(0);
 		}
-	case 3:
+	case 3://程序介绍
 		system("cls");
 		printf("==============================================\n");
 		printf("\n\t      关  于  我  们\n\n");
@@ -364,7 +361,7 @@ mainly:
 		system("pause");
 		system("cls");
 		goto beginning;
-	case 4:exit(0);
+	case 4:exit(0);//退出系统
 	}
 	return 0;
 }
