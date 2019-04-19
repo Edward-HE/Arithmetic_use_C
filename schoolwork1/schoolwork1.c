@@ -1,8 +1,9 @@
-﻿#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
-#include <windows.h>
+﻿#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include<windows.h>
+#include<time.h>
 
 typedef struct users_info {
 	char name[50];
@@ -225,15 +226,12 @@ double test(int n)
 		}
 		else {
 			printf("又做错了，正确答案是：%d\n", ranswer);
-			char tmp1[256], tmp2[256];
+			char tmp1[256];
 			memset(tmp1, 0, sizeof(tmp1));
-			memset(tmp2, 0, sizeof(tmp2));
-			sprintf(tmp1, "%d%c", num1,operation);
-			sprintf(tmp2, "%d= %d , 正确答案为： %d\n", num2,uanswer,ranswer);
+			sprintf(tmp1, "   %d%c%d= %d , 正确答案为： %d\n", num1,operation,num2,uanswer,ranswer);
 			
 			fp3 = fopen(login_name_wq, "a");
 			fwrite(tmp1, 1, strlen(tmp1), fp3);
-			fwrite(tmp2, 1, strlen(tmp2), fp3);
 			fclose(fp3);
 			return 0;
 		}
@@ -308,16 +306,24 @@ mainly:
 		switch (option1) {
 		case 1:
 			system("cls");
-			
+			fp3 = fopen(login_name_wq, "a");
+			char tmp2[256];
+			memset(tmp2, 0, sizeof(tmp2));
+			time_t timep;
+			struct tm* p;
+			time(&timep);
+			p = gmtime(&timep);
+			sprintf(tmp2, "%d年%d月%d日 %d:%d:%d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, 8 + p->tm_hour, p->tm_min, p->tm_sec);
+			fwrite(tmp2, 1, strlen(tmp2), fp3);
+			fclose(fp3);
 			doExercise();
 			system("pause");
 			system("cls");
 			goto mainly;
 		case 2:
-			//strcat(login_name_wq, ".txt");
 			
 			fp2 = fopen(login_name_wq, "r");
-
+			
 			while (!feof(fp2))
 				putchar(fgetc(fp2));
 			fclose(fp2);
