@@ -150,7 +150,7 @@ double test(int n)//出题并检测
 	{
 	case 1:
 		srand(time(NULL));		//初始化随机数种子
-		num1 = rand() % 50;			//取0—9之间的随机数
+		num1 = rand() % 50;			//取0—49之间的随机数
 		num2 = rand() % 50;
 		operation = '+';
 		break;
@@ -158,7 +158,7 @@ double test(int n)//出题并检测
 
 	case 2:
 		srand(time(NULL));		//初始化随机数种子
-		num1 = rand() % 100;			//取0—9之间的随机数
+		num1 = rand() % 100;			//取0—99之间的随机数
 		num2 = rand() % 100;
 		operation = '-';
 		break;
@@ -166,7 +166,7 @@ double test(int n)//出题并检测
 	case 3:
 		while (num1 * num2 >= 100) {
 			srand(time(NULL));		//初始化随机数种子
-			num1 = rand() % 15;			//取0—9之间的随机数
+			num1 = rand() % 15;			//取0—14之间的随机数
 			num2 = rand() % 15;
 		}
 		operation = '*';
