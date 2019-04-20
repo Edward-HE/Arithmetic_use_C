@@ -15,8 +15,8 @@
 
 ```
 
-`4月16日19:00`开始，`4月19日15:20`结束。
-可执行代码共计`335`行。主要难点为`注册和登录`和`错题集`。
+`4月16日19:00`开始，`4月20日11:32`结束。
+可执行代码共计`346`行。主要难点为`注册和登录`和`错题集`。
 ### 注册和登录
 采用结构体数组，并储存在一个txt文件中
 
@@ -40,10 +40,19 @@ fclose(fp3);
 错题写入方法：
 ```c
 char tmp1[256];
-memset(tmp1, 0, sizeof(tmp1));
+memset(tmp1, 0, sizeof(tmp1));//清空垃圾数据
 sprintf(tmp1, "   %d%c%d= %d , 正确答案为： %d\n", num1,operation,num2,uanswer,ranswer);//错题写入错题集
 fp3 = fopen(login_name_wq, "a");
 fwrite(tmp1, 1, strlen(tmp1), fp3);
+fclose(fp3);
+```
+
+错题查看方法：
+
+```c
+fp3 = fopen(login_name_wq, "a+");
+while (!feof(fp3))
+putchar(fgetc(fp3));
 fclose(fp3);
 ```
 
