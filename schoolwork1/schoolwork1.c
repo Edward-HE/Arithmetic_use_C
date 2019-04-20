@@ -139,11 +139,7 @@ double test(int n)//出题并检测
 	char operation;			//运算类别
 	int num1 = 0;				//操作数1
 	int num2 = 0;				//操作数2
-
-	srand(time(NULL));		//初始化随机数种子
-	num1 = rand() % 10;			//取0—9之间的随机数
-	num2 = rand() % 10;
-
+	
 	//选择5就随机产生1-4所代表的每一种运算方式
 	if (n == 5)
 	{
@@ -153,18 +149,33 @@ double test(int n)//出题并检测
 	switch (n)
 	{
 	case 1:
+		srand(time(NULL));		//初始化随机数种子
+		num1 = rand() % 50;			//取0—9之间的随机数
+		num2 = rand() % 50;
 		operation = '+';
 		break;
+		
 
 	case 2:
+		srand(time(NULL));		//初始化随机数种子
+		num1 = rand() % 100;			//取0—9之间的随机数
+		num2 = rand() % 100;
 		operation = '-';
 		break;
 
 	case 3:
+		while (num1 * num2 >= 100) {
+			srand(time(NULL));		//初始化随机数种子
+			num1 = rand() % 15;			//取0—9之间的随机数
+			num2 = rand() % 15;
+		}
 		operation = '*';
 		break;
 
 	case 4:
+		srand(time(NULL));		//初始化随机数种子
+		num1 = rand() % 10;			//取0—9之间的随机数
+		num2 = rand() % 10;
 		operation = '/';
 		break;
 	}
