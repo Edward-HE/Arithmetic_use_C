@@ -19,6 +19,15 @@ FILE* fp3;
 
 int main();
 
+void Wrong() /*输出按键错误信息*/
+{
+	system("cls");
+	printf("=========================================\n");
+	printf("\n\n\n请选择1-4四个选项之一，请不要输入其他选项！\n\n\n");
+	printf("\n=========================================\n\n\n\n");
+	getchar();
+}
+
 void users_create()
 {
 	FILE* fp;
@@ -376,6 +385,11 @@ mainly://练习系统界面
 		system("cls");
 		goto beginning;
 	case 4:exit(0);//退出系统
+	default:
+		Wrong();
+		system("pause");
+		system("cls");
+		goto beginning; /*按键有误，必须为数值1-4*/
 	}
 	return 0;
 }
